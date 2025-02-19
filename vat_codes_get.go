@@ -1,11 +1,11 @@
-package hogia_v2
+package hogia_api
 
 import (
 	"encoding/json"
 	"net/http"
 	"net/url"
 
-	"github.com/omniboost/go-hogia-v2/utils"
+	"github.com/omniboost/go-hogia-api/utils"
 )
 
 func (c *Client) NewGetVatCodesRequest() GetVatCodesRequest {

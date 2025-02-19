@@ -1,4 +1,4 @@
-module github.com/omniboost/go-hogia-v2
+module github.com/omniboost/go-hogia-api
 
 go 1.23.6
 

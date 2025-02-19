@@ -1,11 +1,11 @@
-package hogia_v2
+package hogia_api
 
 import (
 	"net/http"
 	"net/url"
 	"strconv"
 
-	"github.com/omniboost/go-hogia-v2/utils"
+	"github.com/omniboost/go-hogia-api/utils"
 )
 
 func (c *Client) NewGetFinancialYearsRequest() GetFinancialYearsRequest {

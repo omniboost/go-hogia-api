@@ -1,1 +1,1 @@
-package hogia_v2_test
+package hogia_api_test

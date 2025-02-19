@@ -1,4 +1,4 @@
-package hogia_v2
+package hogia_api
 
 import (
 	"bytes"
@@ -20,7 +20,7 @@ import (
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-hogia-v2/" + libraryVersion
+	userAgent      = "go-hogia-api/" + libraryVersion
 	mediaType      = "application/json"
 	charset        = "utf-8"
 )

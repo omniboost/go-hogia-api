@@ -1,4 +1,4 @@
-package hogia_v2
+package hogia_api
 
 var (
 	DimensionTypeOne DimensionType = "One"

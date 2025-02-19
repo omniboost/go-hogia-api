@@ -1,15 +1,15 @@
-package hogia_v2_test
+package hogia_api_test
 
 import (
 	"context"
 	"os"
 	"testing"
 
-	hogia_v2 "github.com/omniboost/go-hogia-v2"
+	hogia_api "github.com/omniboost/go-hogia-api"
 )
 
 var (
-	client *hogia_v2.Client
+	client *hogia_api.Client
 )
 
 func TestMain(m *testing.M) {
@@ -18,7 +18,7 @@ func TestMain(m *testing.M) {
 	tokenURL := os.Getenv("OAUTH_TOKEN_URL")
 
 	// Default oausth2 flow
-	oauthConfig := hogia_v2.NewOauth2ClientCredentialsConfig()
+	oauthConfig := hogia_api.NewOauth2ClientCredentialsConfig()
 	oauthConfig.ClientID = clientID
 	oauthConfig.ClientSecret = clientSecret
 
@@ -30,7 +30,7 @@ func TestMain(m *testing.M) {
 	// get http client with automatic oauth logic
 	httpClient := oauthConfig.Client(context.Background())
 
-	client = hogia_v2.NewClient(httpClient)
+	client = hogia_api.NewClient(httpClient)
 	client.SetDebug(true)
 	client.SetDisallowUnknownFields(true)
 
