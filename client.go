@@ -422,6 +422,7 @@ type ErrorResponse struct {
 
 	ValidationErrors []ValidationError
 	Errors           Errors `json:"errors"`
+	Message          string `json:"message"`
 	Type             string `json:"type"`
 	Title            string `json:"title"`
 	Status           int    `json:"status"`
@@ -467,6 +468,11 @@ func (r *ErrorResponse) Error() string {
 	// Add title error
 	if r.Title != "" {
 		result = multierror.Append(result, fmt.Errorf("%d: %s", r.Status, r.Title))
+	}
+
+	// Add message error
+	if r.Message != "" {
+		result = multierror.Append(result, errors.New(r.Message))
 	}
 
 	if result == nil {
