@@ -163,15 +163,6 @@ func (c *Client) GetEndpointURL(relative string, pathParams PathParams) url.URL 
 }
 
 func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, error) {
-	// convert body struct to json
-	// buf := new(bytes.Buffer)
-	// if req.RequestBodyInterface() != nil {
-	// 	err := json.NewEncoder(buf).Encode(req.RequestBodyInterface())
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// }
-
 	var body io.Reader
 	if req.RequestBodyInterface() != nil {
 		if r, ok := req.RequestBodyInterface().(io.Reader); ok {
@@ -187,12 +178,6 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 			body = buf
 		}
 	}
-
-	// create new http request
-	// r, err := http.NewRequest(req.Method(), req.URL().String(), buf)
-	// if err != nil {
-	// 	return nil, err
-	// }
 
 	r, err := http.NewRequest(req.Method(), req.URL().String(), body)
 	if err != nil {
@@ -221,9 +206,6 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 		dump, _ := httputil.DumpRequestOut(req, true)
 		log.Println(string(dump))
 	}
-
-	// c.SleepUntilRequestRate()
-	// c.RegisterRequestTimestamp(time.Now())
 
 	httpResp, err := c.http.Do(req)
 	if err != nil {
@@ -257,22 +239,13 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 		return httpResp, nil
 	}
 
-	// interface implements io.Writer: write Body to it
-	// if w, ok := response.Envelope.(io.Writer); ok {
-	// 	_, err := io.Copy(w, httpResp.Body)
-	// 	return httpResp, err
-	// }
-
 	// try to decode body into interface parameter
 	if responseBody == nil {
 		return httpResp, nil
 	}
-	// validationError := &ValidationError{}
 	errorResponse := &ErrorResponse{Response: httpResp}
-	// validationError := &ValidationError{}
 	statusErrResponse := &StatusErrorResponse{Response: httpResp}
 	err = c.Unmarshal(httpResp.Body, responseBody, errorResponse, statusErrResponse)
-	// err = c.Unmarshal(httpResp.Body, responseBody, validationError, errorResponse, statusErrResponse)
 	if err != nil {
 		return httpResp, err
 	}
@@ -281,17 +254,9 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 		return httpResp, errorResponse
 	}
 
-	// if validationError.Error() != "" {
-	// 	return httpResp, validationError
-	// }
-
 	if statusErrResponse.Error() != "" {
 		return httpResp, statusErrResponse
 	}
-
-	// if len(errorResponse.ValidationErrors) > 0 {
-	// 	return httpResp, errorResponse
-	// }
 
 	return httpResp, nil
 }
@@ -333,33 +298,6 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 	return nil
 }
 
-// func (c *Client) RegisterRequestTimestamp(t time.Time) {
-// 	if len(requestTimestamps) >= 5 {
-// 		requestTimestamps = requestTimestamps[1:5]
-// 	}
-// 	requestTimestamps = append(requestTimestamps, t)
-// }
-
-// func (c *Client) SleepUntilRequestRate() {
-// 	// Requestrate is 5r/1s
-
-// 	// if there are less then 5 registered requests: execute the request
-// 	// immediately
-// 	if len(requestTimestamps) < 4 {
-// 		return
-// 	}
-
-// 	// is the first item within 1 second? If it's > 1 second the request can be
-// 	// executed imediately
-// 	diff := time.Now().Sub(requestTimestamps[0])
-// 	if diff >= time.Second {
-// 		return
-// 	}
-
-// 	// Sleep for the time it takes for the first item to be > 1 second old
-// 	time.Sleep(time.Second - diff)
-// }
-
 // CheckResponse checks the Client response for errors, and returns them if
 // present. A response is considered an error if it has a status code outside
 // the 200 range. Client error responses are expected to have either no response
@@ -367,12 +305,6 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 // body will be silently ignored.
 func CheckResponse(r *http.Response) error {
 	errorResponse := &ErrorResponse{Response: r}
-
-	// Don't check content-lenght: a created response, for example, has no body
-	// if r.Header.Get("Content-Length") == "0" {
-	// 	errorResponse.Errors.Message = r.Status
-	// 	return errorResponse
-	// }
 
 	if c := r.StatusCode; (c >= 200 && c <= 299) || c == 400 {
 		return nil
@@ -415,6 +347,18 @@ func (r *StatusErrorResponse) Error() string {
 
 	return ""
 }
+
+// {
+//   "errors": {
+//       "sequenceId": [
+//           "Error converting value \"\" to type 'System.Guid'. Path 'sequenceId', line 1, position 338."
+//       ]
+//   },
+//   "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+//   "title": "One or more validation errors occurred.",
+//   "status": 400,
+//   "traceId": "00-3c171ea3c263877259335dc4a4a1b970-ad0f4ea6ae7a2ebe-00"
+// }
 
 type ErrorResponse struct {
 	// HTTP response that caused this error
@@ -480,33 +424,17 @@ func (r *ErrorResponse) Error() string {
 	}
 
 	return result.Error()
-
-	// if len(r.ValidationErrors) > 0 {
-	// 	for _, v := range r.ValidationErrors {
-	// 		if len(v.Error()) > 0 {
-	// 			return strings.Join(v.Error(), "; ")
-	// 		}
-	// 	}
-	// }
-
-	// if r.Errors.SequenceID != nil && len(r.Errors.SequenceID) > 0 {
-	// 	return strings.Join(r.Errors.SequenceID, "; ")
-	// }
-
-	// if r.Title != "" {
-	// 	return fmt.Sprintf("%d: %s", r.Status, r.Title)
-	// }
-
-	// return ""
 }
 
 // [
-//   {
-//     "errorCode": 1001004,
-//     "errorScopeId": "9ab8f26a-e31d-4b36-b3f3-26c5c5340abd",
-//     "message": "Invalid Voucher type, valid Values (Unspecified,SupplierInvoice,AutoVat,SupplierInvoicePayment,CustomerInvoice,CustomerInvoicePayment",
-//     "sequentialId": "00000000-0000-0000-0000-000000000000"
-//   }
+//
+//	{
+//	  "errorCode": 1001004,
+//	  "errorScopeId": "9ab8f26a-e31d-4b36-b3f3-26c5c5340abd",
+//	  "message": "Invalid Voucher type, valid Values (Unspecified,SupplierInvoice,AutoVat,SupplierInvoicePayment,CustomerInvoice,CustomerInvoicePayment",
+//	  "sequentialId": "00000000-0000-0000-0000-000000000000"
+//	}
+//
 // ]
 type ValidationError struct {
 	ErrorCode    *int   `json:"errorCode"`
@@ -516,16 +444,6 @@ type ValidationError struct {
 	SequentialID string `json:"sequentialId"`
 	SourceHint   string `json:"sourceHint"`
 }
-
-// func (v ValidationError) Error() []string {
-// 	err := []string{}
-
-// 	if v.ErrorCode != nil && v.Message != "" {
-// 		err = append(err, fmt.Sprintf("ErrorCode: %d, Message: %s", *v.ErrorCode, v.Message))
-// 	}
-
-// 	return err
-// }
 
 func checkContentType(response *http.Response) error {
 	header := response.Header.Get("Content-Type")
