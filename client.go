@@ -500,6 +500,14 @@ func (r *ErrorResponse) Error() string {
 	// return ""
 }
 
+// [
+//   {
+//     "errorCode": 1001004,
+//     "errorScopeId": "9ab8f26a-e31d-4b36-b3f3-26c5c5340abd",
+//     "message": "Invalid Voucher type, valid Values (Unspecified,SupplierInvoice,AutoVat,SupplierInvoicePayment,CustomerInvoice,CustomerInvoicePayment",
+//     "sequentialId": "00000000-0000-0000-0000-000000000000"
+//   }
+// ]
 type ValidationError struct {
 	ErrorCode    *int   `json:"errorCode"`
 	ErrorScopeID string `json:"errorScopeId"`
