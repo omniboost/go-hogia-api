@@ -78,39 +78,40 @@ type ContactsResponse struct {
 	Language                 string   `json:"language"`
 	IsOrganization           bool     `json:"isOrganization"`
 }
-type Supplier struct {
-	PaymentTerms           int    `json:"paymentTerms"`
-	IsActive               bool   `json:"isActive"`
-	SelectedCurrencyCode   string `json:"selectedCurrencyCode"`
-	IsAutogiroActive       bool   `json:"isAutogiroActive"`
-	DebtAccountNumber      any    `json:"debtAccountNumber"`
-	IsAutomatedInvoiceFlow bool   `json:"isAutomatedInvoiceFlow"`
-}
-type EdiAddress struct {
-	ID     string `json:"id"`
-	Scheme int    `json:"scheme"`
-}
-type Customer struct {
-	PaymentTerms                int        `json:"paymentTerms"`
-	IsRutRot                    bool       `json:"isRutRot"`
-	RutRotType                  int        `json:"rutRotType"`
-	RutRotPropertyDescription   string     `json:"rutRotPropertyDescription"`
-	RutRotBrfOrganizationNumber string     `json:"rutRotBrfOrganizationNumber"`
-	RutRotApartmentNumber       string     `json:"rutRotApartmentNumber"`
-	EInvoiceReceiverEmail       string     `json:"eInvoiceReceiverEmail"`
-	InvoiceReference            string     `json:"invoiceReference"`
-	DistributionMethod          int        `json:"distributionMethod"`
-	IsActive                    bool       `json:"isActive"`
-	SelectedCurrencyCode        string     `json:"selectedCurrencyCode"`
-	EInvoicePartyID             string     `json:"eInvoicePartyId"`
-	GlnNumber                   string     `json:"glnNumber"`
-	IsReverseCharge             bool       `json:"isReverseCharge"`
-	EdiAddress                  EdiAddress `json:"ediAddress"`
-	CustomerDebtAccountNumber   int        `json:"customerDebtAccountNumber"`
-	UseDiscount                 bool       `json:"useDiscount"`
-	DiscountPercent             float64    `json:"discountPercent"`
-	CfarNumber                  string     `json:"cfarNumber"`
-}
+
+// type Supplier struct {
+// 	PaymentTerms           int    `json:"paymentTerms"`
+// 	IsActive               bool   `json:"isActive"`
+// 	SelectedCurrencyCode   string `json:"selectedCurrencyCode"`
+// 	IsAutogiroActive       bool   `json:"isAutogiroActive"`
+// 	DebtAccountNumber      any    `json:"debtAccountNumber"`
+// 	IsAutomatedInvoiceFlow bool   `json:"isAutomatedInvoiceFlow"`
+// }
+// type EdiAddress struct {
+// 	ID     string `json:"id"`
+// 	Scheme int    `json:"scheme"`
+// }
+// type Customer struct {
+// 	PaymentTerms                int        `json:"paymentTerms"`
+// 	IsRutRot                    bool       `json:"isRutRot"`
+// 	RutRotType                  int        `json:"rutRotType"`
+// 	RutRotPropertyDescription   string     `json:"rutRotPropertyDescription"`
+// 	RutRotBrfOrganizationNumber string     `json:"rutRotBrfOrganizationNumber"`
+// 	RutRotApartmentNumber       string     `json:"rutRotApartmentNumber"`
+// 	EInvoiceReceiverEmail       string     `json:"eInvoiceReceiverEmail"`
+// 	InvoiceReference            string     `json:"invoiceReference"`
+// 	DistributionMethod          int        `json:"distributionMethod"`
+// 	IsActive                    bool       `json:"isActive"`
+// 	SelectedCurrencyCode        string     `json:"selectedCurrencyCode"`
+// 	EInvoicePartyID             string     `json:"eInvoicePartyId"`
+// 	GlnNumber                   string     `json:"glnNumber"`
+// 	IsReverseCharge             bool       `json:"isReverseCharge"`
+// 	EdiAddress                  EdiAddress `json:"ediAddress"`
+// 	CustomerDebtAccountNumber   int        `json:"customerDebtAccountNumber"`
+// 	UseDiscount                 bool       `json:"useDiscount"`
+// 	DiscountPercent             float64    `json:"discountPercent"`
+// 	CfarNumber                  string     `json:"cfarNumber"`
+// }
 
 type DimensionsResponse struct {
 	ID              string   `json:"id"`
@@ -164,6 +165,10 @@ type FinancialYearsResponse struct {
 
 type VoucherDraftsResponse struct {
 	VoucherID string `json:"voucherId"`
+}
+
+type CustomerInvoicesV2Response struct {
+	CustomerInvoiceID string `json:"customerInvoiceId"`
 }
 
 type CustomerInvoicesResponse struct {
@@ -468,13 +473,13 @@ type VoucherDraft struct {
 }
 
 type VoucherDraftRows struct {
-	Amount        int          `json:"amount"`
-	NumberOf      int          `json:"numberOf"`
-	ProjectNumber string       `json:"projectNumber"`
-	Specification string       `json:"specification"`
-	Text          string       `json:"text"`
-	AccountNumber int          `json:"accountNumber"`
-	Dimensions    []Dimensions `json:"dimensions"`
+	Amount        float64             `json:"amount"`
+	NumberOf      int                 `json:"numberOf"`
+	ProjectNumber string              `json:"projectNumber"`
+	Specification string              `json:"specification"`
+	Text          string              `json:"text"`
+	AccountNumber int                 `json:"accountNumber"`
+	Dimensions    []DimensionsVoucher `json:"dimensions"`
 }
 
 type CustomerInvoicesRequest struct {
@@ -483,7 +488,6 @@ type CustomerInvoicesRequest struct {
 	InvoiceHeader             InvoiceHeader     `json:"invoiceHeader"`
 	CurrencyInfo              CurrencyInfo      `json:"currencyInfo"`
 	InvoiceLines              []InvoiceLines    `json:"invoiceLines"`
-	RutRot                    RutRot            `json:"rutRot"`
 	PaymentChannels           []PaymentChannels `json:"paymentChannels"`
 	Organization              Organization      `json:"organization"`
 	IsReverseCharge           bool              `json:"isReverseCharge"`
@@ -531,10 +535,11 @@ type InvoiceHeader struct {
 	SupplierOrderNumber   string             `json:"supplierOrderNumber"`
 	InvoiceReference      string             `json:"invoiceReference"`
 }
-type Currency struct {
-	Decimals int    `json:"decimals"`
-	Code     string `json:"code"`
-}
+
+//	type Currency struct {
+//		Decimals int    `json:"decimals"`
+//		Code     string `json:"code"`
+//	}
 type AccountingCurrency struct {
 	Decimals int    `json:"decimals"`
 	Code     string `json:"code"`
@@ -542,8 +547,8 @@ type AccountingCurrency struct {
 type CurrencyInfo struct {
 	CurrencyProfitsAccountNumber int                `json:"currencyProfitsAccountNumber"`
 	CurrencyLossesAccountNumber  int                `json:"currencyLossesAccountNumber"`
-	ExchangeRate                 int                `json:"exchangeRate"`
-	RoundingFactor               int                `json:"roundingFactor"`
+	ExchangeRate                 float64            `json:"exchangeRate"`
+	RoundingFactor               float64            `json:"roundingFactor"`
 	Currency                     Currency           `json:"currency"`
 	AccountingCurrency           AccountingCurrency `json:"accountingCurrency"`
 }
@@ -552,28 +557,29 @@ type Vat struct {
 	AccountNumber int     `json:"accountNumber"`
 }
 
-type Dimensions struct {
+type DimensionsVoucher struct {
 	DimensionNumber string `json:"dimensionNumber"`
 	DimensionLevel  int    `json:"dimensionLevel"`
 	AccountType     int    `json:"accountType,omitempty"`
 }
-type InvoiceLines struct {
-	UnitPrice          int          `json:"unitPrice"`
-	UnitType           string       `json:"unitType"`
-	Quantity           int          `json:"quantity"`
-	Vat                Vat          `json:"vat"`
-	SalesAccountNumber int          `json:"salesAccountNumber"`
-	RutRotWorkTypeName string       `json:"rutRotWorkTypeName"`
-	ArticleType        string       `json:"articleType"`
-	StockAccountNumber int          `json:"stockAccountNumber"`
-	CostAccountNumber  int          `json:"costAccountNumber"`
-	CostAmount         int          `json:"costAmount"`
-	Dimensions         []Dimensions `json:"dimensions"`
-	ProjectNumber      string       `json:"projectNumber"`
-	DiscountPercent    int          `json:"discountPercent"`
-	Name               string       `json:"name"`
-	Type               string       `json:"type"`
-}
+
+//	type InvoiceLines struct {
+//		UnitPrice          float64      `json:"unitPrice"`
+//		UnitType           string       `json:"unitType"`
+//		Quantity           int          `json:"quantity"`
+//		Vat                Vat          `json:"vat"`
+//		SalesAccountNumber int          `json:"salesAccountNumber"`
+//		RutRotWorkTypeName string       `json:"rutRotWorkTypeName"`
+//		ArticleType        string       `json:"articleType"`
+//		StockAccountNumber int          `json:"stockAccountNumber"`
+//		CostAccountNumber  int          `json:"costAccountNumber"`
+//		CostAmount         int          `json:"costAmount"`
+//		Dimensions         []Dimensions `json:"dimensions"`
+//		ProjectNumber      string       `json:"projectNumber"`
+//		DiscountPercent    int          `json:"discountPercent"`
+//		Name               string       `json:"name"`
+//		Type               string       `json:"type"`
+//	}
 type RutRotApplicants struct {
 	SequenceID           string   `json:"sequenceId"`
 	IdentificationNumber string   `json:"identificationNumber"`
@@ -629,4 +635,189 @@ type Organization struct {
 	IsFTaxApproved       bool                   `json:"isFTaxApproved"`
 	SubjectToVAT         bool                   `json:"subjectToVAT"`
 	Headquarters         string                 `json:"headquarters"`
+}
+
+type ContactsPost struct {
+	ContactTypes         []int        `json:"contactTypes"`
+	CountryCode          string       `json:"countryCode"`
+	Country              string       `json:"country"`
+	CompanyName          string       `json:"companyName"`
+	Number               string       `json:"number"`
+	GivenName            string       `json:"givenName"`
+	SurName              string       `json:"surName"`
+	IdentificationNumber string       `json:"identificationNumber"`
+	Customer             CustomerPost `json:"customer"`
+	VatNumber            string       `json:"vatNumber"`
+	Language             string       `json:"language"`
+}
+type CustomerPost struct {
+	PaymentTerms          string `json:"paymentTerms"`
+	IsRutRot              bool   `json:"isRutRot"`
+	EInvoiceReceiverEmail string `json:"eInvoiceReceiverEmail"`
+	InvoiceReference      string `json:"invoiceReference"`
+	IsActive              bool   `json:"isActive"`
+	SelectedCurrencyCode  string `json:"selectedCurrencyCode"`
+	IsReverseCharge       bool   `json:"isReverseCharge"`
+}
+
+type CustomerInvoicesV2Request struct {
+	InvoiceLines    []InvoiceLines  `json:"invoiceLines"`
+	CustomerInvoice CustomerInvoice `json:"customerInvoice"`
+	SequenceID      string          `json:"sequenceId"`
+}
+type TextInvoiceLine struct {
+	Description string `json:"description"`
+}
+type Dimensions struct {
+	Type   string `json:"type"`
+	Number string `json:"number"`
+	Name   string `json:"name"`
+}
+type ItemInvoiceLine struct {
+	Quantity        int          `json:"quantity"`
+	ItemNumber      string       `json:"itemNumber"`
+	DiscountPercent int          `json:"discountPercent"`
+	Dimensions      []Dimensions `json:"dimensions"`
+	ProjectNumber   string       `json:"projectNumber"`
+}
+type InvoiceLine struct {
+	Description        string       `json:"description"`
+	UnitPrice          float64      `json:"unitPrice"`
+	UnitType           string       `json:"unitType"`
+	Quantity           int          `json:"quantity"`
+	SalesAccountNumber int          `json:"salesAccountNumber"`
+	Dimensions         []Dimensions `json:"dimensions"`
+	ProjectNumber      string       `json:"projectNumber"`
+}
+type InvoiceLines struct {
+	InvoiceLine InvoiceLine `json:"invoiceLine"`
+}
+type Currency struct {
+	Code string `json:"code"`
+}
+type CustomerInvoice struct {
+	IsReverseCharge       bool         `json:"isReverseCharge"`
+	CustomerNumber        string       `json:"customerNumber"`
+	ProjectNumber         string       `json:"projectNumber"`
+	Dimensions            []Dimensions `json:"dimensions"`
+	InvoiceDate           Date         `json:"invoiceDate"`
+	InvoiceExpirationDate Date         `json:"invoiceExpirationDate"`
+	InvoiceNumber         int          `json:"invoiceNumber"`
+	Ocr                   string       `json:"ocr"`
+	Comment               string       `json:"comment"`
+	OurReference          string       `json:"ourReference"`
+	YourReference         string       `json:"yourReference"`
+	CustomerOrderNumber   string       `json:"customerOrderNumber"`
+	CustomerProjectNumber string       `json:"customerProjectNumber"`
+	SupplierOrderNumber   string       `json:"supplierOrderNumber"`
+	InvoiceReference      string       `json:"invoiceReference"`
+	Currency              Currency     `json:"currency"`
+}
+
+type ContactsPostResponse struct {
+	ID                       string   `json:"id"`
+	CreatedBy                string   `json:"createdBy"`
+	UpdatedBy                string   `json:"updatedBy"`
+	CreatedDate              DateTime `json:"createdDate"`
+	UpdatedDate              DateTime `json:"updatedDate"`
+	Version                  int      `json:"version"`
+	OrganizationID           string   `json:"organizationId"`
+	ContactChannels          []any    `json:"contactChannels"`
+	Addresses                []any    `json:"addresses"`
+	Relations                []any    `json:"relations"`
+	SupplierPaymentMethods   []any    `json:"supplierPaymentMethods"`
+	CustomerRutRotApplicants []any    `json:"customerRutRotApplicants"`
+	SequenceID               string   `json:"sequenceId"`
+	RowVersion               int      `json:"rowVersion"`
+	ContactTypes             []int    `json:"contactTypes"`
+	BusinessType             int      `json:"businessType"`
+	CountryCode              string   `json:"countryCode"`
+	Country                  string   `json:"country"`
+	CompanyName              string   `json:"companyName"`
+	Number                   string   `json:"number"`
+	GivenName                string   `json:"givenName"`
+	SurName                  string   `json:"surName"`
+	IdentificationNumber     string   `json:"identificationNumber"`
+	Supplier                 Supplier `json:"supplier"`
+	Customer                 Customer `json:"customer"`
+	VatNumber                string   `json:"vatNumber"`
+	Language                 string   `json:"language"`
+	IsOrganization           bool     `json:"isOrganization"`
+}
+type Supplier struct {
+	PaymentTerms           int    `json:"paymentTerms"`
+	IsActive               bool   `json:"isActive"`
+	SelectedCurrencyCode   string `json:"selectedCurrencyCode"`
+	IsAutogiroActive       bool   `json:"isAutogiroActive"`
+	DebtAccountNumber      any    `json:"debtAccountNumber"`
+	IsAutomatedInvoiceFlow bool   `json:"isAutomatedInvoiceFlow"`
+}
+type EdiAddress struct {
+	ID     string `json:"id"`
+	Scheme int    `json:"scheme"`
+}
+type Customer struct {
+	PaymentTerms                int        `json:"paymentTerms"`
+	IsRutRot                    bool       `json:"isRutRot"`
+	RutRotType                  int        `json:"rutRotType"`
+	RutRotPropertyDescription   string     `json:"rutRotPropertyDescription"`
+	RutRotBrfOrganizationNumber string     `json:"rutRotBrfOrganizationNumber"`
+	RutRotApartmentNumber       string     `json:"rutRotApartmentNumber"`
+	EInvoiceReceiverEmail       string     `json:"eInvoiceReceiverEmail"`
+	InvoiceReference            string     `json:"invoiceReference"`
+	DistributionMethod          int        `json:"distributionMethod"`
+	IsActive                    bool       `json:"isActive"`
+	SelectedCurrencyCode        string     `json:"selectedCurrencyCode"`
+	EInvoicePartyID             string     `json:"eInvoicePartyId"`
+	GlnNumber                   string     `json:"glnNumber"`
+	IsReverseCharge             bool       `json:"isReverseCharge"`
+	EdiAddress                  EdiAddress `json:"ediAddress"`
+	CustomerDebtAccountNumber   int        `json:"customerDebtAccountNumber"`
+	UseDiscount                 bool       `json:"useDiscount"`
+	DiscountPercent             float64    `json:"discountPercent"`
+	CfarNumber                  string     `json:"cfarNumber"`
+}
+
+type ContactAddresssPost struct {
+	AddressType     int    `json:"addressType"`
+	Street          string `json:"street"`
+	StreetExtraLine string `json:"streetExtraLine"`
+	City            string `json:"city"`
+	ZipCode         string `json:"zipCode"`
+	Country         string `json:"country"`
+}
+
+type ContactAddresssPostResponse struct {
+	ID              string   `json:"id"`
+	ContactID       string   `json:"contactId"`
+	CreatedBy       string   `json:"createdBy"`
+	UpdatedBy       string   `json:"updatedBy"`
+	CreatedDate     DateTime `json:"createdDate"`
+	UpdatedDate     DateTime `json:"updatedDate"`
+	Version         int      `json:"version"`
+	SequenceID      string   `json:"sequenceId"`
+	RowVersion      int      `json:"rowVersion"`
+	OrganizationID  string   `json:"organizationId"`
+	AddressType     int      `json:"addressType"`
+	Street          string   `json:"street"`
+	StreetExtraLine string   `json:"streetExtraLine"`
+	City            string   `json:"city"`
+	ZipCode         string   `json:"zipCode"`
+	Country         string   `json:"country"`
+	Region          string   `json:"region"`
+	Name            string   `json:"name"`
+}
+
+type FinancialYearByDateResponse struct {
+	ID             string `json:"id"`
+	Version        int    `json:"version"`
+	CreatedBy      string `json:"createdBy"`
+	UpdatedBy      string `json:"updatedBy"`
+	CreatedDate    string `json:"createdDate"`
+	UpdatedDate    string `json:"updatedDate"`
+	OrganizationID string `json:"organizationId"`
+	SequenceID     string `json:"sequenceId"`
+	RowVersion     int    `json:"rowVersion"`
+	StartDate      string `json:"startDate"`
+	EndDate        string `json:"endDate"`
 }

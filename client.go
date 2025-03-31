@@ -404,17 +404,14 @@ func (r *ErrorResponse) Error() string {
 		}
 	}
 
-	// Add sequence ID errors
 	for _, seq := range r.Errors.SequenceID {
 		result = multierror.Append(result, fmt.Errorf("%s", seq))
 	}
 
-	// Add title error
 	if r.Title != "" {
 		result = multierror.Append(result, fmt.Errorf("%d: %s", r.Status, r.Title))
 	}
 
-	// Add message error
 	if r.Message != "" {
 		result = multierror.Append(result, errors.New(r.Message))
 	}

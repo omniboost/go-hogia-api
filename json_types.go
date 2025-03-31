@@ -2,6 +2,7 @@ package hogia_api
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -10,8 +11,45 @@ type Date struct {
 	time.Time
 }
 
+func (d *Date) MarshalJSON() ([]byte, error) {
+	if d.Time.IsZero() {
+		return json.Marshal(nil)
+	}
+
+	return json.Marshal(d.Time.Format("2006-01-02"))
+}
+
 func (d Date) MarshalSchema() string {
 	return d.Time.Format("2006-01-02")
+}
+
+func (d *Date) UnmarshalJSON(text []byte) error {
+	var value string
+	if err := json.Unmarshal(text, &value); err != nil {
+		return err
+	}
+
+	if value == "" {
+		return nil
+	}
+
+	// Try multiple date formats
+	layouts := []string{
+		"2006-01-02T15:04:05",
+		time.RFC3339,
+		"2006-01-02",
+		"2006-01-02T15:04:05Z",
+	}
+
+	for _, layout := range layouts {
+		parsed, err := time.Parse(layout, value)
+		if err == nil {
+			d.Time = parsed
+			return nil
+		}
+	}
+
+	return fmt.Errorf("could not parse date: %s", value)
 }
 
 type DateTime struct {
@@ -22,7 +60,7 @@ func (d DateTime) MarshalSchema() string {
 	return d.Time.Format(time.RFC3339)
 }
 
-func (d *Date) MarshalJSON() ([]byte, error) {
+func (d *DateTime) MarshalJSON() ([]byte, error) {
 	if d.Time.IsZero() {
 		return json.Marshal(nil)
 	}
@@ -30,10 +68,9 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 	return json.Marshal(d.Time.Format("2006-01-02T15:04:05"))
 }
 
-func (d *DateTime) UnmarshalJSON(text []byte) (err error) {
+func (d *DateTime) UnmarshalJSON(text []byte) error {
 	var value string
-	err = json.Unmarshal(text, &value)
-	if err != nil {
+	if err := json.Unmarshal(text, &value); err != nil {
 		return err
 	}
 
@@ -41,15 +78,45 @@ func (d *DateTime) UnmarshalJSON(text []byte) (err error) {
 		return nil
 	}
 
-	d.Time, err = time.Parse("2006-01-02T15:04:05", value)
-	if err == nil {
-		return nil
+	// Try multiple date formats
+	layouts := []string{
+		"2006-01-02T15:04:05",
+		time.RFC3339,
+		"2006-01-02",
+		"2006-01-02T15:04:05Z",
 	}
 
-	// lastly try standard date
-	d.Time, err = time.Parse(time.RFC3339, value)
-	return err
+	for _, layout := range layouts {
+		parsed, err := time.Parse(layout, value)
+		if err == nil {
+			d.Time = parsed
+			return nil
+		}
+	}
+
+	return fmt.Errorf("could not parse date: %s", value)
 }
+
+// func (d *DateTime) UnmarshalJSON(text []byte) (err error) {
+// 	var value string
+// 	err = json.Unmarshal(text, &value)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	if value == "" {
+// 		return nil
+// 	}
+
+// 	d.Time, err = time.Parse("2006-01-02T15:04:05", value)
+// 	if err == nil {
+// 		return nil
+// 	}
+
+// 	// lastly try standard date
+// 	d.Time, err = time.Parse(time.RFC3339, value)
+// 	return err
+// }
 
 type StringFloat float64
 
