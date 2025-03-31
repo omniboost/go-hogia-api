@@ -33,11 +33,11 @@ func (c *Client) NewGetFinancialYearsQueryParams() *GetFinancialYearsQueryParams
 }
 
 type GetFinancialYearsQueryParams struct {
-	ApiVersion     Date   `schema:"api-version"`
-	Page           int    `schema:"Page"`
-	PageSize       int    `schema:"PageSize"`
-	Sort           string `schema:"Sort"`
-	SortProperties string `schema:"SortProperties"`
+	ApiVersion Date `schema:"api-version"`
+	Page       int  `schema:"Page"`
+	PageSize   int  `schema:"PageSize"`
+	// Sort           string `schema:"Sort"`
+	// SortProperties string `schema:"SortProperties"`
 }
 
 func (p GetFinancialYearsQueryParams) ToURLValues() (url.Values, error) {
@@ -126,7 +126,7 @@ func (r *GetFinancialYearsRequest) Do() (GetFinancialYearsResponseBody, error, *
 	}
 
 	// Process query parameters
-	err = utils.AddQueryParamsToRequest(r.QueryParams(), req, true)
+	err = utils.AddQueryParamsToRequest(r.QueryParams(), req, false)
 	if err != nil {
 		return *r.NewResponseBody(), err, nil
 	}
@@ -154,7 +154,6 @@ func (r *GetFinancialYearsRequest) All() ([]FinancialYearsResponse, error) {
 		currentPageNum, _ := strconv.Atoi(currentPage)
 		totalPages, _ := strconv.Atoi(pageCount)
 
-		// Break if we've reached the last page
 		if currentPageNum == totalPages {
 			break
 		}

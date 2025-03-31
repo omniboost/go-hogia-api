@@ -19,7 +19,7 @@ func TestPostVoucherDraftsRequest(t *testing.T) {
 	req.RequestBody().VoucherDraft.CurrencyCode = "SEK"
 	req.RequestBody().VoucherDraft.Series = "A"
 	// req.RequestBody().SequenceID = "6081157c-410e-42f0-8e72-67e970e4d1a5"
-	req.RequestBody().VoucherDraftRows = []hogia_api.VoucherDraftRows{{Amount: 100, NumberOf: 0, ProjectNumber: "1", Specification: "Test", Text: "Test", AccountNumber: 1510, Dimensions: []hogia_api.Dimensions{{DimensionNumber: "1000", DimensionLevel: 1}}}}
+	req.RequestBody().VoucherDraftRows = []hogia_api.VoucherDraftRows{{Amount: 100, NumberOf: 0, ProjectNumber: "1", Specification: "Test", Text: "Test", AccountNumber: 1510, Dimensions: []hogia_api.DimensionsVoucher{{DimensionNumber: "1000", DimensionLevel: 1}}}}
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
