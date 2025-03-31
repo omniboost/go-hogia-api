@@ -1,6 +1,7 @@
 package hogia_api
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/url"
 
@@ -37,6 +38,7 @@ type GetContactsQueryParams struct {
 	Page       int      `schema:"page"`
 	PageSize   int      `schema:"pageSize"`
 	Embed      []string `schema:"embed"`
+	Number     string   `schema:"number"`
 }
 
 func (p GetContactsQueryParams) ToURLValues() (url.Values, error) {
@@ -62,12 +64,14 @@ func (c *Client) NewGetContactsPathParams() *GetContactsPathParams {
 }
 
 type GetContactsPathParams struct {
-	OrgID string `schema:"org_id"`
+	OrgID     string `schema:"org_id"`
+	ContactID string `schema:"contact_id"`
 }
 
 func (p *GetContactsPathParams) Params() map[string]string {
 	return map[string]string{
-		"org_id": p.OrgID,
+		"org_id":     p.OrgID,
+		"contact_id": p.ContactID,
 	}
 }
 
@@ -112,8 +116,23 @@ func (r *GetContactsRequest) NewResponseBody() *GetContactsResponseBody {
 
 type GetContactsResponseBody []ContactsResponse
 
+func (r *GetContactsResponseBody) UnmarshalJSON(data []byte) error {
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
+	}
+
+	ss := []ContactsResponse{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
+	}
+
+	*r = ss
+	return nil
+}
+
 func (r *GetContactsRequest) URL() *url.URL {
-	u := r.client.GetEndpointURL("{{.org_id}}/contacts", r.PathParams())
+	u := r.client.GetEndpointURL("{{.org_id}}/contacts/{{.contact_id}}", r.PathParams())
 	return &u
 }
 

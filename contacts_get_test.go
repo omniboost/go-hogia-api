@@ -11,12 +11,14 @@ import (
 
 func TestGetContactsRequest(t *testing.T) {
 	req := client.NewGetContactsRequest()
-	req.PathParams().OrgID = "b135d637-1688-4c55-9061-b0a40094461b"
-	req.QueryParams().ApiVersion = hogia_api.Date{time.Date(2025, 02, 13, 0, 0, 0, 0, time.UTC)}
-	req.QueryParams().Page = 3
-	req.QueryParams().Version = 1
+	req.PathParams().OrgID = "3cb44744-8fb9-4750-89b0-b29700871843"
+	// req.PathParams().ContactID = "df52c06b-a79d-4212-a38b-b2a700cf113c"
+	req.QueryParams().ApiVersion = hogia_api.Date{time.Date(2025, 03, 21, 0, 0, 0, 0, time.UTC)}
+	// req.QueryParams().Page = 0
+	req.QueryParams().Version = 0
 	// req.QueryParams().Embed = []string{"ContactChannels.Addresses"}
-	req.QueryParams().PageSize = 1
+	// req.QueryParams().PageSize = 100
+	req.QueryParams().Number = "1"
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
