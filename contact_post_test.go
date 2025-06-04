@@ -16,12 +16,12 @@ func TestPostContactRequest(t *testing.T) {
 	// req.RequestBody().ContactTypes = []int{2}
 	// req.RequestBody().CountryCode = "SE"
 	// req.RequestBody().Country = "Sverige"
-	// req.RequestBody().CompanyName = "Test Company"
-	// req.RequestBody().Number = "3"
+	// req.RequestBody().CompanyName = "Test Company 2"
+	// req.RequestBody().Number = "5"
 	// req.RequestBody().GivenName = ""
 	// req.RequestBody().SurName = ""
 	// // req.RequestBody().IdentificationNumber = "112233-1234"
-	// req.RequestBody().Customer = hogia_api.CustomerPost{PaymentTerms: "30", IsRutRot: false, EInvoiceReceiverEmail: "", InvoiceReference: "Faktura ref", IsActive: true, SelectedCurrencyCode: "SE", IsReverseCharge: false}
+	// req.RequestBody().Customer = hogia_api.CustomerPost{GlnNumber: "7300009009558", PaymentTerms: "30", IsRutRot: false, EInvoiceReceiverEmail: "", InvoiceReference: "Faktura ref", IsActive: true, SelectedCurrencyCode: "SE", IsReverseCharge: false}
 	// req.RequestBody().VatNumber = "SE112233123401"
 	// req.RequestBody().Language = "sv-SE"
 	// // req.RequestBody().AddressType = 2

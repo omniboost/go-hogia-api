@@ -658,6 +658,7 @@ type CustomerPost struct {
 	IsActive              bool   `json:"isActive"`
 	SelectedCurrencyCode  string `json:"selectedCurrencyCode"`
 	IsReverseCharge       bool   `json:"isReverseCharge"`
+	GlnNumber             string `json:"glnNumber"`
 }
 
 type CustomerInvoicesV2Request struct {
