@@ -61,12 +61,14 @@ func (c *Client) NewPostContactAddressPathParams() *PostContactAddressPathParams
 type PostContactAddressPathParams struct {
 	OrgID     string `schema:"org_id"`
 	ContactID string `schema:"contact_id"`
+	ID        string `schema:"id,omitempty"`
 }
 
 func (p *PostContactAddressPathParams) Params() map[string]string {
 	return map[string]string{
 		"org_id":     p.OrgID,
 		"contact_id": p.ContactID,
+		"id":         p.ID,
 	}
 }
 
@@ -111,6 +113,11 @@ func (r *PostContactAddressRequest) NewResponseBody() *PostContactAddressRespons
 type PostContactAddressResponseBody ContactAddresssPostResponse
 
 func (r *PostContactAddressRequest) URL() *url.URL {
+	if r.PathParams().ID != "" {
+		u := r.client.GetEndpointURL("{{.org_id}}/contacts/{{.contact_id}}/addresses/{{.id}}", r.PathParams())
+		return &u
+	}
+
 	u := r.client.GetEndpointURL("{{.org_id}}/contacts/{{.contact_id}}/addresses", r.PathParams())
 	return &u
 }

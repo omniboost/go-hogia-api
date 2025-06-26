@@ -49,34 +49,34 @@ type AccountsResponse struct {
 }
 
 type ContactsResponse struct {
-	ID                       string   `json:"id"`
-	CreatedBy                string   `json:"createdBy"`
-	UpdatedBy                string   `json:"updatedBy"`
-	CreatedDate              DateTime `json:"createdDate"`
-	UpdatedDate              DateTime `json:"updatedDate"`
-	Version                  int      `json:"version"`
-	OrganizationID           string   `json:"organizationId"`
-	ContactChannels          []any    `json:"contactChannels"`
-	Addresses                []any    `json:"addresses"`
-	Relations                []any    `json:"relations"`
-	SupplierPaymentMethods   []any    `json:"supplierPaymentMethods"`
-	CustomerRutRotApplicants []any    `json:"customerRutRotApplicants"`
-	SequenceID               string   `json:"sequenceId"`
-	RowVersion               int      `json:"rowVersion"`
-	ContactTypes             []int    `json:"contactTypes"`
-	BusinessType             int      `json:"businessType"`
-	CountryCode              string   `json:"countryCode"`
-	Country                  string   `json:"country"`
-	CompanyName              string   `json:"companyName"`
-	Number                   string   `json:"number"`
-	GivenName                string   `json:"givenName"`
-	SurName                  string   `json:"surName"`
-	IdentificationNumber     string   `json:"identificationNumber"`
-	Supplier                 Supplier `json:"supplier"`
-	Customer                 Customer `json:"customer"`
-	VatNumber                string   `json:"vatNumber"`
-	Language                 string   `json:"language"`
-	IsOrganization           bool     `json:"isOrganization"`
+	ID                       string    `json:"id"`
+	CreatedBy                string    `json:"createdBy"`
+	UpdatedBy                string    `json:"updatedBy"`
+	CreatedDate              DateTime  `json:"createdDate"`
+	UpdatedDate              DateTime  `json:"updatedDate"`
+	Version                  int       `json:"version"`
+	OrganizationID           string    `json:"organizationId"`
+	ContactChannels          []any     `json:"contactChannels"`
+	Addresses                []Address `json:"addresses"`
+	Relations                []any     `json:"relations"`
+	SupplierPaymentMethods   []any     `json:"supplierPaymentMethods"`
+	CustomerRutRotApplicants []any     `json:"customerRutRotApplicants"`
+	SequenceID               string    `json:"sequenceId"`
+	RowVersion               int       `json:"rowVersion"`
+	ContactTypes             []int     `json:"contactTypes"`
+	BusinessType             int       `json:"businessType"`
+	CountryCode              string    `json:"countryCode"`
+	Country                  string    `json:"country"`
+	CompanyName              string    `json:"companyName"`
+	Number                   string    `json:"number"`
+	GivenName                string    `json:"givenName"`
+	SurName                  string    `json:"surName"`
+	IdentificationNumber     string    `json:"identificationNumber"`
+	Supplier                 Supplier  `json:"supplier"`
+	Customer                 Customer  `json:"customer"`
+	VatNumber                string    `json:"vatNumber"`
+	Language                 string    `json:"language"`
+	IsOrganization           bool      `json:"isOrganization"`
 }
 
 // type Supplier struct {
@@ -595,11 +595,14 @@ type RutRotWorkTypeLines struct {
 	CustomerInvoiceID string `json:"customerInvoiceId"`
 }
 type Address struct {
+	ID              string `json:"id"`
+	AddressType     int    `json:"addressType"`
 	Street          string `json:"street"`
 	StreetExtraLine string `json:"streetExtraLine"`
 	ZipCode         string `json:"zipCode"`
 	City            string `json:"city"`
 	Country         string `json:"country"`
+	Version         int    `json:"version"`
 }
 type RutRot struct {
 	RutRotApplicants      []RutRotApplicants    `json:"rutRotApplicants"`
@@ -649,6 +652,7 @@ type ContactsPost struct {
 	Customer             CustomerPost `json:"customer"`
 	VatNumber            string       `json:"vatNumber"`
 	Language             string       `json:"language"`
+	Addresses            []Address    `json:"addresses"`
 }
 type CustomerPost struct {
 	PaymentTerms          string `json:"paymentTerms"`
@@ -716,34 +720,34 @@ type CustomerInvoice struct {
 }
 
 type ContactsPostResponse struct {
-	ID                       string   `json:"id"`
-	CreatedBy                string   `json:"createdBy"`
-	UpdatedBy                string   `json:"updatedBy"`
-	CreatedDate              DateTime `json:"createdDate"`
-	UpdatedDate              DateTime `json:"updatedDate"`
-	Version                  int      `json:"version"`
-	OrganizationID           string   `json:"organizationId"`
-	ContactChannels          []any    `json:"contactChannels"`
-	Addresses                []any    `json:"addresses"`
-	Relations                []any    `json:"relations"`
-	SupplierPaymentMethods   []any    `json:"supplierPaymentMethods"`
-	CustomerRutRotApplicants []any    `json:"customerRutRotApplicants"`
-	SequenceID               string   `json:"sequenceId"`
-	RowVersion               int      `json:"rowVersion"`
-	ContactTypes             []int    `json:"contactTypes"`
-	BusinessType             int      `json:"businessType"`
-	CountryCode              string   `json:"countryCode"`
-	Country                  string   `json:"country"`
-	CompanyName              string   `json:"companyName"`
-	Number                   string   `json:"number"`
-	GivenName                string   `json:"givenName"`
-	SurName                  string   `json:"surName"`
-	IdentificationNumber     string   `json:"identificationNumber"`
-	Supplier                 Supplier `json:"supplier"`
-	Customer                 Customer `json:"customer"`
-	VatNumber                string   `json:"vatNumber"`
-	Language                 string   `json:"language"`
-	IsOrganization           bool     `json:"isOrganization"`
+	ID                       string    `json:"id"`
+	CreatedBy                string    `json:"createdBy"`
+	UpdatedBy                string    `json:"updatedBy"`
+	CreatedDate              DateTime  `json:"createdDate"`
+	UpdatedDate              DateTime  `json:"updatedDate"`
+	Version                  int       `json:"version"`
+	OrganizationID           string    `json:"organizationId"`
+	ContactChannels          []any     `json:"contactChannels"`
+	Addresses                []Address `json:"addresses"`
+	Relations                []any     `json:"relations"`
+	SupplierPaymentMethods   []any     `json:"supplierPaymentMethods"`
+	CustomerRutRotApplicants []any     `json:"customerRutRotApplicants"`
+	SequenceID               string    `json:"sequenceId"`
+	RowVersion               int       `json:"rowVersion"`
+	ContactTypes             []int     `json:"contactTypes"`
+	BusinessType             int       `json:"businessType"`
+	CountryCode              string    `json:"countryCode"`
+	Country                  string    `json:"country"`
+	CompanyName              string    `json:"companyName"`
+	Number                   string    `json:"number"`
+	GivenName                string    `json:"givenName"`
+	SurName                  string    `json:"surName"`
+	IdentificationNumber     string    `json:"identificationNumber"`
+	Supplier                 Supplier  `json:"supplier"`
+	Customer                 Customer  `json:"customer"`
+	VatNumber                string    `json:"vatNumber"`
+	Language                 string    `json:"language"`
+	IsOrganization           bool      `json:"isOrganization"`
 }
 type Supplier struct {
 	PaymentTerms           int    `json:"paymentTerms"`
@@ -786,6 +790,7 @@ type ContactAddresssPost struct {
 	City            string `json:"city"`
 	ZipCode         string `json:"zipCode"`
 	Country         string `json:"country"`
+	Version         int    `json:"version,omitempty"`
 }
 
 type ContactAddresssPostResponse struct {
