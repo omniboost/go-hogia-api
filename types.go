@@ -458,6 +458,35 @@ type CurrencyInfoResp struct {
 
 // Requests
 
+type VouchersRequest struct {
+	Number         int           `json:"number"`
+	VoucherRows    []VoucherRows `json:"voucherRows"`
+	SequenceID     string        `json:"sequenceId"`
+	Date           DateTime      `json:"date"`
+	TypeDto        string        `json:"typeDto"`
+	Text           string        `json:"text"`
+	Serie          string        `json:"serie"`
+	CurrencyID     string        `json:"currencyId"`
+	InvoiceID      string        `json:"invoiceId"`
+	InvoiceNumber  string        `json:"invoiceNumber"`
+	ParentID       string        `json:"parentId"`
+	AccrualTypeDto string        `json:"accrualTypeDto"`
+}
+type VoucherRowDimensions struct {
+	DimensionNumber string `json:"dimensionNumber"`
+	DimensionLevel  int    `json:"dimensionLevel"`
+}
+type VoucherRows struct {
+	VoucherRowDimensions []VoucherRowDimensions `json:"voucherRowDimensions"`
+	Amount               float64                `json:"amount"`
+	NumberOf             int                    `json:"numberOf"`
+	RowNumber            int                    `json:"rowNumber"`
+	Specification        string                 `json:"specification"`
+	Text                 string                 `json:"text"`
+	AccountNumber        int                    `json:"accountNumber"`
+	ProjectNumber        string                 `json:"projectNumber"`
+}
+
 type VoucherDraftsRequest struct {
 	VoucherDraft     VoucherDraft       `json:"voucherDraft"`
 	VoucherDraftRows []VoucherDraftRows `json:"voucherDraftRows"`
@@ -826,4 +855,61 @@ type FinancialYearByDateResponse struct {
 	RowVersion     int    `json:"rowVersion"`
 	StartDate      string `json:"startDate"`
 	EndDate        string `json:"endDate"`
+}
+
+type VouchersResponse struct {
+	ID                 string                `json:"id"`
+	Number             int                   `json:"number"`
+	CreatedBy          string                `json:"createdBy"`
+	UpdatedBy          string                `json:"updatedBy"`
+	CreatedDate        DateTime              `json:"createdDate"`
+	UpdatedDate        DateTime              `json:"updatedDate"`
+	FinancialYearID    string                `json:"financialYearId"`
+	Version            int                   `json:"version"`
+	VoucherRows        []VoucherRowsResponse `json:"voucherRows"`
+	Attachments        []AttachmentsResponse `json:"attachments"`
+	RowVersion         int                   `json:"rowVersion"`
+	OrganizationID     string                `json:"organizationId"`
+	SequenceID         string                `json:"sequenceId"`
+	AccrualReferenceID string                `json:"accrualReferenceId"`
+	Date               DateTime              `json:"date"`
+	TypeDto            string                `json:"typeDto"`
+	Text               string                `json:"text"`
+	Serie              string                `json:"serie"`
+	CurrencyID         string                `json:"currencyId"`
+	InvoiceID          string                `json:"invoiceId"`
+	InvoiceNumber      string                `json:"invoiceNumber"`
+	ParentID           string                `json:"parentId"`
+	AccrualTypeDto     string                `json:"accrualTypeDto"`
+}
+type VoucherRowDimensionsResponse struct {
+	ID              string `json:"id"`
+	VoucherRowID    string `json:"voucherRowId"`
+	DimensionNumber string `json:"dimensionNumber"`
+	DimensionLevel  int    `json:"dimensionLevel"`
+}
+type VoucherResp struct {
+}
+type VoucherRowsResponse struct {
+	VoucherRowDimensions []VoucherRowDimensions `json:"voucherRowDimensions"`
+	ID                   string                 `json:"id"`
+	VoucherID            string                 `json:"voucherId"`
+	Voucher              VoucherResp            `json:"voucher"`
+	OrganizationID       string                 `json:"organizationId"`
+	Amount               float64                `json:"amount"`
+	NumberOf             int                    `json:"numberOf"`
+	RowNumber            int                    `json:"rowNumber"`
+	Specification        string                 `json:"specification"`
+	Text                 string                 `json:"text"`
+	AccountNumber        int                    `json:"accountNumber"`
+	ProjectNumber        string                 `json:"projectNumber"`
+}
+type AttachmentsResponse struct {
+	ID             string `json:"id"`
+	FileName       string `json:"fileName"`
+	MimeType       string `json:"mimeType"`
+	FileSizeKb     int    `json:"fileSizeKb"`
+	VoucherID      string `json:"voucherId"`
+	SequenceID     string `json:"sequenceId"`
+	AttachmentType string `json:"attachmentType"`
 }
