@@ -132,6 +132,22 @@ type DimensionsResponse struct {
 	EndDate         DateTime `json:"endDate"`
 }
 
+type CurrenciesResponse struct {
+	Code           string   `json:"code"`
+	Decimals       int      `json:"decimals"`
+	Name           string   `json:"name"`
+	RoundingFactor int      `json:"roundingFactor"`
+	OrganizationID string   `json:"organizationId"`
+	Version        int      `json:"version"`
+	CreatedBy      string   `json:"createdBy"`
+	CreatedDate    DateTime `json:"createdDate"`
+	UpdatedBy      string   `json:"updatedBy"`
+	UpdatedDate    DateTime `json:"updatedDate"`
+	ID             string   `json:"id"`
+	SequenceID     string   `json:"sequenceId"`
+	RowVersion     int      `json:"rowVersion"`
+}
+
 type VatSettingsResponse struct {
 	ID              string   `json:"id"`
 	CreatedBy       string   `json:"createdBy"`
@@ -459,7 +475,7 @@ type CurrencyInfoResp struct {
 // Requests
 
 type VouchersRequest struct {
-	Number         int           `json:"number"`
+	Number         int           `json:"number,omitempty"`
 	VoucherRows    []VoucherRows `json:"voucherRows"`
 	SequenceID     string        `json:"sequenceId"`
 	Date           DateTime      `json:"date"`
@@ -467,10 +483,10 @@ type VouchersRequest struct {
 	Text           string        `json:"text"`
 	Serie          string        `json:"serie"`
 	CurrencyID     string        `json:"currencyId"`
-	InvoiceID      string        `json:"invoiceId"`
-	InvoiceNumber  string        `json:"invoiceNumber"`
-	ParentID       string        `json:"parentId"`
-	AccrualTypeDto string        `json:"accrualTypeDto"`
+	InvoiceID      string        `json:"invoiceId,omitempty"`
+	InvoiceNumber  string        `json:"invoiceNumber,omitempty"`
+	ParentID       string        `json:"parentId,omitempty"`
+	AccrualTypeDto string        `json:"accrualTypeDto,omitempty"`
 }
 type VoucherRowDimensions struct {
 	DimensionNumber string `json:"dimensionNumber"`
