@@ -133,19 +133,19 @@ type DimensionsResponse struct {
 }
 
 type CurrenciesResponse struct {
-	Code           string   `json:"code"`
-	Decimals       int      `json:"decimals"`
-	Name           string   `json:"name"`
-	RoundingFactor int      `json:"roundingFactor"`
-	OrganizationID string   `json:"organizationId"`
-	Version        int      `json:"version"`
-	CreatedBy      string   `json:"createdBy"`
-	CreatedDate    DateTime `json:"createdDate"`
-	UpdatedBy      string   `json:"updatedBy"`
-	UpdatedDate    DateTime `json:"updatedDate"`
-	ID             string   `json:"id"`
-	SequenceID     string   `json:"sequenceId"`
-	RowVersion     int      `json:"rowVersion"`
+	ID             string  `json:"id"`
+	Name           string  `json:"name"`
+	Code           string  `json:"code"`
+	Decimals       int     `json:"decimals"`
+	RoundingFactor float64 `json:"roundingFactor"`
+	OrganizationID string  `json:"organizationId"`
+	CreatedBy      string  `json:"createdBy"`
+	CreatedDate    string  `json:"createdDate"`
+	UpdatedBy      string  `json:"updatedBy"`
+	UpdatedDate    string  `json:"updatedDate"`
+	Version        int     `json:"version"`
+	RowVersion     int     `json:"rowVersion"`
+	SequenceID     string  `json:"sequenceId"`
 }
 
 type VatSettingsResponse struct {
