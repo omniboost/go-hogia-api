@@ -378,6 +378,12 @@ type Errors struct {
 }
 
 func (r *ErrorResponse) UnmarshalJSON(data []byte) error {
+	var errorMessage string
+	if err := json.Unmarshal(data, &errorMessage); err == nil && errorMessage != "" {
+		r.Message = errorMessage
+		return nil
+	}
+
 	var validationErrors []ValidationError
 	if err := json.Unmarshal(data, &validationErrors); err == nil {
 		r.ValidationErrors = validationErrors
