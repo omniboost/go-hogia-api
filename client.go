@@ -378,6 +378,10 @@ type Errors struct {
 }
 
 func (r *ErrorResponse) UnmarshalJSON(data []byte) error {
+	if r.Response.StatusCode >= 200 && r.Response.StatusCode <= 299 {
+		return nil
+	}
+
 	var errorMessage string
 	if err := json.Unmarshal(data, &errorMessage); err == nil && errorMessage != "" {
 		r.Message = errorMessage
