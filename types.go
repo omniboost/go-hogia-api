@@ -700,7 +700,7 @@ type ContactsPost struct {
 	Addresses            []Address    `json:"addresses"`
 }
 type CustomerPost struct {
-	PaymentTerms          string `json:"paymentTerms"`
+	PaymentTerms          int    `json:"paymentTerms"`
 	IsRutRot              bool   `json:"isRutRot"`
 	EInvoiceReceiverEmail string `json:"eInvoiceReceiverEmail"`
 	InvoiceReference      string `json:"invoiceReference"`
@@ -795,7 +795,7 @@ type ContactsPostResponse struct {
 	IsOrganization           bool      `json:"isOrganization"`
 }
 type Supplier struct {
-	PaymentTerms           int    `json:"paymentTerms"`
+	PaymentTerms           *int    `json:"paymentTerms"`
 	IsActive               bool   `json:"isActive"`
 	SelectedCurrencyCode   string `json:"selectedCurrencyCode"`
 	IsAutogiroActive       bool   `json:"isAutogiroActive"`
@@ -807,7 +807,7 @@ type EdiAddress struct {
 	Scheme int    `json:"scheme"`
 }
 type Customer struct {
-	PaymentTerms                int        `json:"paymentTerms"`
+	PaymentTerms                *int        `json:"paymentTerms"`
 	IsRutRot                    bool       `json:"isRutRot"`
 	RutRotType                  int        `json:"rutRotType"`
 	RutRotPropertyDescription   string     `json:"rutRotPropertyDescription"`
